@@ -1,24 +1,33 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
+import { useDispatch } from '../../services/store';
+import { registerUser } from '../../services/slices/userSlice';
+import { TRegisterData } from '../../utils/burger-api';
 
 export const Register: FC = () => {
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    if (!email || !name || !password) return; // Проверка на заполненность
+
+    const registerData: TRegisterData = { name, email, password };
+    dispatch(registerUser(registerData));
   };
 
   return (
     <RegisterUI
-      errorText=''
+      errorText=""
+      userName={name}
       email={email}
-      userName={userName}
       password={password}
-      setEmail={setEmail}
+      setEmail={setEmail} 
       setPassword={setPassword}
-      setUserName={setUserName}
+      setUserName={setName}
       handleSubmit={handleSubmit}
     />
   );
