@@ -11,13 +11,12 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'; 
-import { AppHeader, OrderInfo, Modal, IngredientDetails } from '@components'; 
-import { ProtectedRoute } from '../protected-route'; 
-import { useDispatch } from '../../services/store'; 
-import { useEffect } from 'react'; 
-import { fetchIngredientsThunk } from '../../services/slices/ingredientsSlice'; 
-import { fetchFeedsThunk } from '../../services/slices/feedsSlice'; 
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { AppHeader, OrderInfo, Modal, IngredientDetails } from '@components';
+import { ProtectedRoute } from '../protected-route';
+import { useDispatch } from '../../services/store';
+import { useEffect } from 'react';
+import { fetchIngredientsThunk } from '../../services/slices/ingredientsSlice';
 import { fetchUser } from '../../services/slices/userSlice';
 
 const App = () => {
@@ -28,7 +27,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredientsThunk());
-    dispatch(fetchFeedsThunk());
     dispatch(fetchUser());
   }, [dispatch]);
 
@@ -39,16 +37,89 @@ const App = () => {
   const routes = [
     { path: '/', element: <ConstructorPage /> },
     { path: '/feed', element: <Feed /> },
-    { path: '/login', element: <ProtectedRoute onlyUnAuth><Login /></ProtectedRoute> },
-    { path: '/register', element: <ProtectedRoute onlyUnAuth><Register /></ProtectedRoute> },
-    { path: '/forgot-password', element: <ProtectedRoute onlyUnAuth><ForgotPassword /></ProtectedRoute> },
-    { path: '/reset-password', element: <ProtectedRoute onlyUnAuth><ResetPassword /></ProtectedRoute> },
-    { path: '/profile', element: <ProtectedRoute><Profile /></ProtectedRoute> },
-    { path: '/profile/orders', element: <ProtectedRoute><ProfileOrders /></ProtectedRoute> },
+    {
+      path: '/login',
+      element: (
+        <ProtectedRoute onlyUnAuth>
+          <Login />
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/register',
+      element: (
+        <ProtectedRoute onlyUnAuth>
+          <Register />
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/forgot-password',
+      element: (
+        <ProtectedRoute onlyUnAuth>
+          <ForgotPassword />
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/reset-password',
+      element: (
+        <ProtectedRoute onlyUnAuth>
+          <ResetPassword />
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/profile',
+      element: (
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: '/profile/orders',
+      element: (
+        <ProtectedRoute>
+          <ProfileOrders />
+        </ProtectedRoute>
+      )
+    },
     { path: '*', element: <NotFound404 /> },
-    { path: '/feed/:number', element: <OrderInfo /> },
-    { path: '/ingredients/:id', element: <IngredientDetails /> },
-    { path: '/profile/orders/:number', element: <ProtectedRoute><OrderInfo /></ProtectedRoute> },
+    { path: '/feed/:number', element:
+      (
+       <div className={styles.detailPageWrap}>
+      <p
+        className={`text text_type_digits-default ${styles.detailHeader}`}
+      >
+        #{location.pathname.split('/')[2]}
+      </p>
+      <OrderInfo />
+    </div>) },
+    { path: '/ingredients/:id', element: 
+      (
+      <div className={styles.detailPageWrap}>
+        <p className={`text text_type_main-large ${styles.detailHeader}`}>
+          Детали ингредиента
+        </p>
+        <IngredientDetails />
+      </div>
+    ) },
+    {
+      path: '/profile/orders/:number',
+      element: (
+        <ProtectedRoute>
+        <div className={styles.detailPageWrap}>
+          <p
+            className={`text text_type_digits-default ${styles.detailHeader}`}
+          >
+            #{location.pathname.split('/')[3]}
+          </p>
+          <OrderInfo />
+        </div>
+      </ProtectedRoute>
+      )
+    }
   ];
 
   return (
@@ -64,7 +135,7 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title={''} onClose={handleCloseModal}>
+              <Modal title={'Детали ингредиента'} onClose={handleCloseModal}>
                 <IngredientDetails />
               </Modal>
             }
@@ -72,7 +143,7 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title={''} onClose={handleCloseModal}>
+              <Modal title={`#${location.pathname.split('/')[2]}`} onClose={handleCloseModal}>
                 <OrderInfo />
               </Modal>
             }
@@ -81,7 +152,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title={''} onClose={handleCloseModal}>
+                <Modal title={`#${location.pathname.split('/')[3]}`} onClose={handleCloseModal}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>

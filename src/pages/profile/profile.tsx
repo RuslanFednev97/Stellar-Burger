@@ -76,4 +76,3 @@ export const Profile: FC = () => {
     />
   );
 };
-

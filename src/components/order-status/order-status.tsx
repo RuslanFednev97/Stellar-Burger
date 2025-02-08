@@ -17,5 +17,10 @@ const statusStyles: { [key: string]: string } = {
 export const OrderStatus: FC<OrderStatusProps> = ({ status }) => {
   const textStyle = statusStyles[status] || statusStyles.created; // Используем значение по умолчанию
 
-  return <OrderStatusUI textStyle={textStyle} text={statusText[status] || 'Неизвестный статус'} />;
+  return (
+    <OrderStatusUI
+      textStyle={textStyle}
+      text={statusText[status] || 'Неизвестный статус'}
+    />
+  );
 };

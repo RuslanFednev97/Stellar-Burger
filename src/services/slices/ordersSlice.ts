@@ -31,21 +31,20 @@ export const createOrderThunk = createAsyncThunk(
   async (data: string[]) => {
     const response = await orderBurgerApi(data);
     if (!response.success) {
-      return Promise.reject(data);
+      return Promise.reject(response); 
     }
     return response;
   }
 );
 
-export const fetchOrdersThunk = createAsyncThunk('order/fetchOrdersThunk', async () => {
-  return await getOrdersApi();
-});
+export const fetchOrdersThunk = createAsyncThunk(
+  'order/fetchOrdersThunk',
+  async () => await getOrdersApi()
+);
 
 export const fetchOrderByNumberThunk = createAsyncThunk(
   'order/fetchOrderByNumberThunk',
-  async (number: number) => {
-    return await getOrderByNumberApi(number);
-  }
+  async (number: number) => await getOrderByNumberApi(number)
 );
 
 const orderSlice = createSlice({
@@ -73,7 +72,8 @@ const orderSlice = createSlice({
         state.isSelectedOrderLoading = false;
       })
       .addCase(fetchOrderByNumberThunk.rejected, (state, { error }) => {
-        state.selectedOrderError = error?.message || 'Ошибка при загрузке заказа';
+        state.selectedOrderError =
+          error?.message || 'Ошибка при загрузке заказа';
       });
 
     builder.addMatcher(
@@ -85,7 +85,8 @@ const orderSlice = createSlice({
     );
 
     builder.addMatcher(
-      (action) => action.type.endsWith('/fulfilled') || action.type.endsWith('/rejected'),
+      (action) =>
+        action.type.endsWith('/fulfilled') || action.type.endsWith('/rejected'),
       (state) => {
         state.isOrdersLoading = false;
         state.isOrderRequesting = false;
@@ -99,6 +100,7 @@ const orderSlice = createSlice({
   }
 });
 
-export const { selectOrdersState, selectOrdersLoading, selectAllOrders } = orderSlice.selectors;
+export const { selectOrdersState, selectOrdersLoading, selectAllOrders } =
+  orderSlice.selectors;
 export const { clearOrders, setOrder } = orderSlice.actions;
 export default orderSlice.reducer;

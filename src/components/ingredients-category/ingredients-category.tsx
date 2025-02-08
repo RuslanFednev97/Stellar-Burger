@@ -14,10 +14,13 @@ export const IngredientsCategory = forwardRef<
     const { bun, ingredients: constructorIngredients } = burgerConstructor;
 
     // Подсчет ингредиентов с использованием reduce
-    const counters = constructorIngredients.reduce<{ [key: string]: number }>((acc, ingredient: TIngredient) => {
-      acc[ingredient._id] = (acc[ingredient._id] || 0) + 1;
-      return acc;
-    }, {});
+    const counters = constructorIngredients.reduce<{ [key: string]: number }>(
+      (acc, ingredient: TIngredient) => {
+        acc[ingredient._id] = (acc[ingredient._id] || 0) + 1;
+        return acc;
+      },
+      {}
+    );
 
     if (bun) counters[bun._id] = 2; // Учитываем бун в счетчике
     return counters;

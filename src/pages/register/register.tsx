@@ -6,7 +6,7 @@ import { TRegisterData } from '../../utils/burger-api';
 
 export const Register: FC = () => {
   const dispatch = useDispatch();
-  
+
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -21,11 +21,11 @@ export const Register: FC = () => {
 
   return (
     <RegisterUI
-      errorText=""
+      errorText=''
       userName={name}
       email={email}
       password={password}
-      setEmail={setEmail} 
+      setEmail={setEmail}
       setPassword={setPassword}
       setUserName={setName}
       handleSubmit={handleSubmit}

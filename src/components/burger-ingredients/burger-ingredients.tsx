@@ -12,12 +12,15 @@ export const BurgerIngredients: FC = () => {
     buns: TIngredient[];
     mains: TIngredient[];
     sauces: TIngredient[];
-  }>((acc, item) => {
-    if (item.type === 'bun') acc.buns.push(item);
-    if (item.type === 'main') acc.mains.push(item);
-    if (item.type === 'sauce') acc.sauces.push(item);
-    return acc;
-  }, { buns: [], mains: [], sauces: [] });
+  }>(
+    (acc, item) => {
+      if (item.type === 'bun') acc.buns.push(item);
+      if (item.type === 'main') acc.mains.push(item);
+      if (item.type === 'sauce') acc.sauces.push(item);
+      return acc;
+    },
+    { buns: [], mains: [], sauces: [] }
+  );
 
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);
@@ -40,9 +43,12 @@ export const BurgerIngredients: FC = () => {
 
   const handleTabClick = (tab: string) => {
     setCurrentTab(tab as TTabMode);
-    if (tab === 'bun') titleBunRef.current?.scrollIntoView({ behavior: 'smooth' });
-    if (tab === 'main') titleMainRef.current?.scrollIntoView({ behavior: 'smooth' });
-    if (tab === 'sauce') titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (tab === 'bun')
+      titleBunRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (tab === 'main')
+      titleMainRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (tab === 'sauce')
+      titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (

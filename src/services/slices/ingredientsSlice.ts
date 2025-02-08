@@ -16,9 +16,7 @@ const initialState: IIngredientState = {
 
 export const fetchIngredientsThunk = createAsyncThunk(
   'ingredient/fetchIngredientsThunk',
-  async () => {
-    return await getIngredientsApi();
-  }
+  async () => await getIngredientsApi()
 );
 
 const ingredientSlice = createSlice({
@@ -42,7 +40,8 @@ const ingredientSlice = createSlice({
     );
 
     builder.addMatcher(
-      (action) => action.type.endsWith('/fulfilled') || action.type.endsWith('/rejected'),
+      (action) =>
+        action.type.endsWith('/fulfilled') || action.type.endsWith('/rejected'),
       (state) => {
         state.isIngredientsLoading = false;
       }
@@ -50,10 +49,12 @@ const ingredientSlice = createSlice({
   },
   selectors: {
     selectIngredients: (state: IIngredientState) => state.ingredients,
-    selectIngredientsLoading: (state: IIngredientState) => state.isIngredientsLoading
+    selectIngredientsLoading: (state: IIngredientState) =>
+      state.isIngredientsLoading
   }
 });
 
 // Экспортируем селекторы
-export const { selectIngredients, selectIngredientsLoading } = ingredientSlice.selectors;
+export const { selectIngredients, selectIngredientsLoading } =
+  ingredientSlice.selectors;
 export default ingredientSlice.reducer;

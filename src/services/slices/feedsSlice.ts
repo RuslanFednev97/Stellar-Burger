@@ -18,9 +18,10 @@ const initialState: IFeedState = {
   error: null
 };
 
-export const fetchFeedsThunk = createAsyncThunk('feed/fetchFeedsThunk', async () => {
-  return await getFeedsApi();
-});
+export const fetchFeedsThunk = createAsyncThunk(
+  'feed/fetchFeedsThunk',
+  async () => await getFeedsApi()
+);
 
 const feedSlice = createSlice({
   name: 'feed',
@@ -49,7 +50,8 @@ const feedSlice = createSlice({
     );
 
     builder.addMatcher(
-      (action) => action.type.endsWith('/fulfilled') || action.type.endsWith('/rejected'),
+      (action) =>
+        action.type.endsWith('/fulfilled') || action.type.endsWith('/rejected'),
       (state) => {
         state.isFeedsLoading = false;
       }

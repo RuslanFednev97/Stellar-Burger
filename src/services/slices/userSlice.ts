@@ -26,10 +26,10 @@ const initialState: TUserState = {
 
 export const getUser = createAsyncThunk('user/getUser', async () => {
   try {
-    return await getUserApi(); 
+    return await getUserApi();
   } catch (error) {
     console.error(error);
-    throw error; 
+    throw error;
   }
 });
 
@@ -39,14 +39,14 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await registerUserApi({ email, name, password });
       console.log('registerUser response:', response);
-      
+
       if (!response.success) {
         return thunkAPI.rejectWithValue(response);
       }
 
       localStorage.setItem('refreshToken', response.refreshToken);
       setCookie('accessToken', response.accessToken);
-      
+
       return response;
     } catch (error) {
       console.error('registerUser error:', error);
@@ -54,7 +54,6 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
-
 
 export const loginUser = createAsyncThunk(
   'user/loginUser',
@@ -85,7 +84,6 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
-
 export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (user: TRegisterData, thunkAPI) => {
@@ -97,18 +95,15 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk(
-  'user/logout',
-  async (_, thunkAPI) => {
-    const response = await logoutApi();
-    if (!response.success) {
-      return thunkAPI.rejectWithValue(response);
-    }
-    localStorage.removeItem('refreshToken');
-    deleteCookie('accessToken');
-    return response;
+export const logout = createAsyncThunk('user/logout', async (_, thunkAPI) => {
+  const response = await logoutApi();
+  if (!response.success) {
+    return thunkAPI.rejectWithValue(response);
   }
-);
+  localStorage.removeItem('refreshToken');
+  deleteCookie('accessToken');
+  return response;
+});
 
 const userSlice = createSlice({
   name: 'user',
@@ -167,5 +162,10 @@ const userSlice = createSlice({
 });
 
 export const { setAuthChecked, setUser } = userSlice.actions;
-export const { selectUser, selectIsAuthChecked, selectRequestStatus, selectLoginUserError } = userSlice.selectors;
+export const {
+  selectUser,
+  selectIsAuthChecked,
+  selectRequestStatus,
+  selectLoginUserError
+} = userSlice.selectors;
 export default userSlice.reducer;

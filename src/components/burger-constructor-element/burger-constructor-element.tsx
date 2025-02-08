@@ -1,7 +1,7 @@
 import { FC, memo, useCallback } from 'react';
 import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import {
   removeIngredient,
   moveIngredient
@@ -12,13 +12,13 @@ export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
     const dispatch = useDispatch();
 
     const onMoveDown = useCallback(() => {
-      if (index < totalItems - 1) { 
+      if (index < totalItems - 1) {
         dispatch(moveIngredient({ fromIndex: index, toIndex: index + 1 }));
       }
     }, [dispatch, index, totalItems]);
 
     const onMoveUp = useCallback(() => {
-      if (index > 0) { 
+      if (index > 0) {
         dispatch(moveIngredient({ fromIndex: index, toIndex: index - 1 }));
       }
     }, [dispatch, index]);
