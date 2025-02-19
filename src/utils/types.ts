@@ -38,3 +38,10 @@ export type TUser = {
 };
 
 export type TTabMode = 'bun' | 'sauce' | 'main';
+
+export interface TBun {
+  _id: string; // Уникальный идентификатор
+  name: string; // Название булки
+  price: number; // Цена булки
+  image: string; // URL изображения булки
+}
