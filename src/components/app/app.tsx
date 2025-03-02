@@ -86,38 +86,41 @@ const App = () => {
       )
     },
     { path: '*', element: <NotFound404 /> },
-    { path: '/feed/:number', element:
-      (
-       <div className={styles.detailPageWrap}>
-      <p
-        className={`text text_type_digits-default ${styles.detailHeader}`}
-      >
-        #{location.pathname.split('/')[2]}
-      </p>
-      <OrderInfo />
-    </div>) },
-    { path: '/ingredients/:id', element: 
-      (
-      <div className={styles.detailPageWrap}>
-        <p className={`text text_type_main-large ${styles.detailHeader}`}>
-          Детали ингредиента
-        </p>
-        <IngredientDetails />
-      </div>
-    ) },
+    {
+      path: '/feed/:number',
+      element: (
+        <div className={styles.detailPageWrap}>
+          <p className={`text text_type_digits-default ${styles.detailHeader}`}>
+            #{location.pathname.split('/')[2]}
+          </p>
+          <OrderInfo />
+        </div>
+      )
+    },
+    {
+      path: '/ingredients/:id',
+      element: (
+        <div className={styles.detailPageWrap}>
+          <p className={`text text_type_main-large ${styles.detailHeader}`}>
+            Детали ингредиента
+          </p>
+          <IngredientDetails />
+        </div>
+      )
+    },
     {
       path: '/profile/orders/:number',
       element: (
         <ProtectedRoute>
-        <div className={styles.detailPageWrap}>
-          <p
-            className={`text text_type_digits-default ${styles.detailHeader}`}
-          >
-            #{location.pathname.split('/')[3]}
-          </p>
-          <OrderInfo />
-        </div>
-      </ProtectedRoute>
+          <div className={styles.detailPageWrap}>
+            <p
+              className={`text text_type_digits-default ${styles.detailHeader}`}
+            >
+              #{location.pathname.split('/')[3]}
+            </p>
+            <OrderInfo />
+          </div>
+        </ProtectedRoute>
       )
     }
   ];
@@ -143,7 +146,10 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title={`#${location.pathname.split('/')[2]}`} onClose={handleCloseModal}>
+              <Modal
+                title={`#${location.pathname.split('/')[2]}`}
+                onClose={handleCloseModal}
+              >
                 <OrderInfo />
               </Modal>
             }
@@ -152,7 +158,10 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title={`#${location.pathname.split('/')[3]}`} onClose={handleCloseModal}>
+                <Modal
+                  title={`#${location.pathname.split('/')[3]}`}
+                  onClose={handleCloseModal}
+                >
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>

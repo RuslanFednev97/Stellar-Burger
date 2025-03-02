@@ -34,7 +34,10 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
   onOrderClick,
   closeOrderModal
 }) => (
-  <section className={styles.burger_constructor}>
+  <section
+    className={styles.burger_constructor}
+    data-cy='constructor-ingredients'
+  >
     {constructorItems.bun?.name ? (
       <RenderBun bun={constructorItems.bun} type='top' />
     ) : (
@@ -83,6 +86,7 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
         type='primary'
         size='large'
         onClick={onOrderClick}
+        data-cy='order-button'
       >
         Оформить заказ
       </Button>
