@@ -10,7 +10,7 @@ import {
 import { TUser } from '@utils-types';
 import { setCookie, deleteCookie } from '../../utils/cookie';
 
-interface TUserState {
+export interface TUserState {
   user: TUser | null;
   isAuthChecked: boolean;
   requestStatus: boolean;

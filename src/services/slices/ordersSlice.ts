@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TOrder } from '../../utils/types';
 import { orderBurgerApi, getOrdersApi, getOrderByNumberApi } from '@api';
 
-interface OrderState {
+export interface OrderState {
   currentOrder: TOrder | null;
   orderName: string;
   isOrdersLoading: boolean;
@@ -31,7 +31,7 @@ export const createOrderThunk = createAsyncThunk(
   async (data: string[]) => {
     const response = await orderBurgerApi(data);
     if (!response.success) {
-      return Promise.reject(response); 
+      return Promise.reject(response);
     }
     return response;
   }
@@ -74,6 +74,11 @@ const orderSlice = createSlice({
       .addCase(fetchOrderByNumberThunk.rejected, (state, { error }) => {
         state.selectedOrderError =
           error?.message || 'Ошибка при загрузке заказа';
+      })
+      .addCase(createOrderThunk.rejected, (state, action) => {
+        state.error = action.error.message || 'Ошибка при создании заказа'; // Обработка ошибки
+        state.isOrdersLoading = false; // Сбрасываем состояние загрузки
+        state.isOrderRequesting = false; // Сбрасываем состояние запроса
       });
 
     builder.addMatcher(
