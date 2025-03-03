@@ -35,17 +35,31 @@ describe('Конструктор бургера', () => {
       // Ждем загрузки ингредиентов
       cy.wait('@getIngredients');
 
+      // Проверяем, что модальное окно отсутствует на экране
+      cy.get('[data-cy="modal"]').should('not.exist');
+
       // Открываем модальное окно по клику на ингредиент
       cy.get('[data-cy=bun-ingredients]').contains('Краторная булка N-200i').click();
-      cy.get('[data-cy="modal"]').should('be.visible');
+
+      // Проверяем, что в модальном окне отображается информация о выбранном товаре
+      cy.get('[data-cy="modal"]').within(() => {
+      cy.contains('Краторная булка N-200i').should('be.visible');
+      });
 
       // Закрываем модальное окно по клику на крестик
       cy.get('[data-cy="close-modal"]').click();
       cy.get('[data-cy="modal"]').should('not.exist');
 
+      // Проверяем, что модальное окно отсутствует на экране
+      cy.get('[data-cy="modal"]').should('not.exist');
+
       // Открываем модальное окно снова
       cy.get('[data-cy=bun-ingredients]').contains('Краторная булка N-200i').click();
-      cy.get('[data-cy="modal"]').should('be.visible');
+
+      // Проверяем, что в модальном окне отображается информация о выбранном товаре
+      cy.get('[data-cy="modal"]').within(() => {
+      cy.contains('Краторная булка N-200i').should('be.visible');
+      });
 
       // Закрываем модальное окно по клику на оверлей
       cy.get('[data-cy="modal-overlay"]').click({ force: true });
@@ -55,10 +69,15 @@ describe('Конструктор бургера', () => {
 
   describe('Создание заказа', () => {
     beforeEach(() => {
-
       // Подставляем моковые токены авторизации
       cy.setCookie('accessToken', 'mockAccessToken');
       localStorage.setItem('refreshToken', 'mockRefreshToken');
+    });
+
+    afterEach(() => {
+      // Очищаем localStorage и cookies после каждого теста в этом блоке
+      cy.clearLocalStorage();
+      cy.clearCookies();
     });
 
     it('Создание заказа и проверка его по номеру', () => {
